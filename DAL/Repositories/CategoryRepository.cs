@@ -1,6 +1,5 @@
 ﻿using DAL.EF;
 using DAL.Models;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,8 +38,9 @@ namespace DAL.Interfaces
 
         public void Update(Category item)
         {
-            context.Entry(item).State = EntityState.Modified;
+            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
+
         public IEnumerable<Category> Find(Func<Category, bool> predicate)
         {
             return context.Categories.Where(predicate);
