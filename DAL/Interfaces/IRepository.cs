@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL.Interfaces
 {
-    interface IRepository<T> where T: class
+    public interface IRepository<T> where T: class
     {
         void Create(T item);
         T GetById(int id);

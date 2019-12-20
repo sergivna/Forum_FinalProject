@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DAL.Entities
+namespace DAL.Repositories
 {
     class CommentRepository : IRepository<Comment>
     {
