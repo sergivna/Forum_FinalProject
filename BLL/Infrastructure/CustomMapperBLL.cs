@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Text;
 using AutoMapper;
 using BLL.DTO;
-using DAL.Models;
+using DAL.Entities;
+
 
 namespace BLL.Infrastructure
 {
-    public class CustomMapperBLL
+    public class CustomMapperBLL: Profile
     {
         private static MapperConfiguration _fromClientProfileToUserDTO;
 
@@ -24,7 +25,17 @@ namespace BLL.Infrastructure
 
                //g.CreateMap<ApplicationUser, UserDTO>();
 
-            }); 
+            });
+
         }
+
+        public CustomMapperBLL()
+        {
+            CreateMap<UserProfile, UserRegisterDTO>().ReverseMap();
+
+            CreateMap<ApplicationUser, UserRegisterDTO>().ReverseMap();
+        }
+
+        
     }
 }

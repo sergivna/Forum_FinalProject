@@ -1,6 +1,6 @@
 ﻿using System;
 using DAL.EF;
-using DAL.Models;
+using DAL.Entities;
 
 namespace ConsoleApp1
 {

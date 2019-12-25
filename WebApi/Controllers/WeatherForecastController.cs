@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace WebApi.Controllers
+namespace WebAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -27,17 +28,15 @@ namespace WebApi.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = rng.Next(-20, 55),
+                Summary = Summaries[rng.Next(Summaries.Length)]
+            })
+            .ToArray();
 
-            List<WeatherForecast> data = new List<WeatherForecast>();
-            data.Add(new WeatherForecast() { Date = DateTime.Now, Summary = "Hello world", TemperatureC = 0 });
-            return data;
-            //return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            //{
-            //    Date = DateTime.Now.AddDays(index),
-            //    TemperatureC = rng.Next(-20, 55),
-            //    Summary = Summaries[rng.Next(Summaries.Length)]
-            //})
-            //.ToArray();
+            //return new WeatherForecast { Date = DateTime.Now };
         }
     }
 }
