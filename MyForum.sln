@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{2B62
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{422E29AE-5087-4627-A601-7050EF8485A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL13\DAL.csproj", "{B1D36239-8A4C-4E30-8896-BECDFA941256}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{F5D38AE0-B816-4F05-BC80-323CA43637B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{422E29AE-5087-4627-A601-7050EF8485A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{422E29AE-5087-4627-A601-7050EF8485A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{422E29AE-5087-4627-A601-7050EF8485A0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1D36239-8A4C-4E30-8896-BECDFA941256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1D36239-8A4C-4E30-8896-BECDFA941256}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1D36239-8A4C-4E30-8896-BECDFA941256}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1D36239-8A4C-4E30-8896-BECDFA941256}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5D38AE0-B816-4F05-BC80-323CA43637B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D38AE0-B816-4F05-BC80-323CA43637B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D38AE0-B816-4F05-BC80-323CA43637B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D38AE0-B816-4F05-BC80-323CA43637B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
