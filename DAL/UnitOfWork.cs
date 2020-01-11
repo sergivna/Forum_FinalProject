@@ -3,6 +3,7 @@ using DAL.Entities;
 using DAL.Interfaces;
 using DAL.Repositories;
 using System;
+using System.Threading.Tasks;
 
 namespace DAL
 {
@@ -15,10 +16,13 @@ namespace DAL
         private CategoryRepository categoryRepository;
         private QuestionRepository questionRepository;
         private CommentRepository commentRepository;
+        private AdditionalRepository additionalRepository;
+        private CountryRepository countryRepository;
+        private RoleRepository roleRepository;
 
-        public UnitOfWork()
+        public UnitOfWork(Context context)
         {
-            context = new Context();
+            this.context = context;
         }
         public IRepository<UserProfile> UserProfiles
         { 
@@ -59,6 +63,36 @@ namespace DAL
                 return commentRepository;
             }
         }
+
+        public IAdditionalRepository Additional
+        {
+            get
+            {
+                if (additionalRepository == null)
+                    return new AdditionalRepository(context);
+                return additionalRepository;
+            }
+        }   
+        public IRepository<Country> Countries
+        {
+            get
+            {
+                if (countryRepository == null)
+                    return new CountryRepository(context);
+                return countryRepository;
+            }
+        }
+
+        public IRepository<ApplicationRole> Roles
+        {
+            get
+            {
+                if (roleRepository == null)
+                    return new RoleRepository(context);
+                return roleRepository;
+            }
+        }
+
         protected virtual void Dispose(bool disposing)
         {
             if (this.disposed)
@@ -77,9 +111,9 @@ namespace DAL
             GC.SuppressFinalize(this);
         }
 
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 }

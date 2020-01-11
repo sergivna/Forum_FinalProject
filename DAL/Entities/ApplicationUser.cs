@@ -7,7 +7,9 @@ namespace DAL.Entities
 {
     public class ApplicationUser : IdentityUser<int>
     {
+       
         public virtual UserProfile UserProfile { get; set; }
-        public virtual ApplicationUserRole ApplicationUserRole { get; set; }
+        public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
+        
     }
 }

@@ -10,9 +10,11 @@ namespace DAL.Entities
         public int Id { get; set; }
         public string Message { get; set; }
         [ForeignKey("UserId")]
-        public UserProfile User { get; set; }
+        public virtual UserProfile User { get; set; }
+        public int  UserId { get; set; }
         [ForeignKey("QuestionId")]
-        public Question Question { get; set; }
+        public virtual Question Question { get; set; }
+        public int? QuestionId { get; set; }
         public DateTime DateOfCreate { get; set; }
     }
 }

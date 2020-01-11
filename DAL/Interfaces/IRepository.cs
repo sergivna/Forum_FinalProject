@@ -7,9 +7,9 @@ namespace DAL.Interfaces
 {
     public interface IRepository<T> where T: class
     {
-        void Create(T item);
-        T GetById(int id);
-        IEnumerable<T> GetAll();
+        Task Create(T item);
+        Task<T> GetById(int id);
+        Task<IEnumerable<T>> GetAll();
         void Delete(int id);
         void Update(T item);
         IEnumerable<T> Find(Func<T, bool> predicate);

@@ -1,14 +1,16 @@
 ﻿using BLL.DTO;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    interface IAuthService
+    public interface IAuthService
     {
-        UserDTO Register(UserRegisterDTO userRegister);
-        UserDTO LogIn(UserLoginDTO userLogin);
-        string GetToken(UserDTO user);
+        Task<IdentityResult> Register(UserRegisterDTO userRegister);
+        Task<UserDTO> LogIn(UserLoginDTO userLogin);
+        Task<String> GetToken(UserDTO userDTO);
     }
 }

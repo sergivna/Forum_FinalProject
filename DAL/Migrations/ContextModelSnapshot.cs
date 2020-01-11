@@ -123,21 +123,9 @@ namespace DAL.Migrations
                     b.Property<int>("RoleId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RoleId1")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
-
-                    b.HasIndex("RoleId1");
-
-                    b.HasIndex("UserId1")
-                        .IsUnique()
-                        .HasFilter("[UserId1] IS NOT NULL");
 
                     b.ToTable("AspNetUserRoles");
                 });
@@ -149,7 +137,7 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Descriptios")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -177,7 +165,7 @@ namespace DAL.Migrations
                     b.Property<int?>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -218,6 +206,9 @@ namespace DAL.Migrations
                     b.Property<DateTime>("DateOfCreate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Header")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Message")
                         .HasColumnType("nvarchar(max)");
 
@@ -241,7 +232,7 @@ namespace DAL.Migrations
                     b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CountryId")
+                    b.Property<int?>("CountryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -355,24 +346,16 @@ namespace DAL.Migrations
             modelBuilder.Entity("DAL.Entities.ApplicationUserRole", b =>
                 {
                     b.HasOne("DAL.Entities.ApplicationRole", null)
-                        .WithMany()
+                        .WithMany("ApplicationUserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.Entities.ApplicationRole", "Role")
-                        .WithMany("ApplicationUserRoles")
-                        .HasForeignKey("RoleId1");
-
                     b.HasOne("DAL.Entities.ApplicationUser", null)
-                        .WithMany()
+                        .WithMany("ApplicationUserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("DAL.Entities.ApplicationUser", "User")
-                        .WithOne("ApplicationUserRole")
-                        .HasForeignKey("DAL.Entities.ApplicationUserRole", "UserId1");
                 });
 
             modelBuilder.Entity("DAL.Entities.Comment", b =>
@@ -383,7 +366,9 @@ namespace DAL.Migrations
 
                     b.HasOne("DAL.Entities.UserProfile", "User")
                         .WithMany("Comments")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("DAL.Entities.Question", b =>
@@ -405,9 +390,7 @@ namespace DAL.Migrations
                 {
                     b.HasOne("DAL.Entities.Country", "Country")
                         .WithMany("UserProfiles")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CountryId");
 
                     b.HasOne("DAL.Entities.ApplicationUser", "User")
                         .WithOne("UserProfile")

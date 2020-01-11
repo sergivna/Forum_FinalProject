@@ -17,19 +17,61 @@ namespace DAL.EF
         //public Context(DbContextOptions<Context> options) : base(options)
         //{ }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //ConfigurationManager.AppSettings["ForumDatabase"]
+            //ConfigurationManager.AppSettings["ForumDatabase"];
 
             IConfigurationRoot configuration = new ConfigurationBuilder()
            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
            .AddJsonFile("appsettings.json")
            .Build();
 
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("ForumDB"));
 
 
-           // optionsBuilder.UseSqlServer(ConfigurationManager.AppSettings["ForumDatabase"]);
+            optionsBuilder
+                .UseLazyLoadingProxies()
+                .UseSqlServer(configuration.GetConnectionString("NewDB"));
+
+
+
+            // optionsBuilder.UseSqlServer(ConfigurationManager.AppSettings["ForumDatabase"]);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            // Customize the ASP.NET Identity model and override the defaults if needed.
+            // For example, you can rename the ASP.NET Identity table names and more.
+            // Add your customizations after calling base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.ApplicationUserRoles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<ApplicationRole>()
+              .HasMany(e => e.ApplicationUserRoles)
+              .WithOne()
+              .HasForeignKey(e => e.RoleId)
+              .IsRequired()
+              .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<ApplicationUserRole>()
+            //    .HasOne(e => e.Role)
+            //    .WithMany()
+            //    .HasForeignKey(e => e.RoleId)
+            //    .IsRequired()
+            //    .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<ApplicationUserRole>()
+            // .HasOne(e => e.User)
+            // .WithMany()
+            // .HasForeignKey(e => e.UserId)
+            // .IsRequired()
+            // .OnDelete(DeleteBehavior.Cascade);
         }
 
 

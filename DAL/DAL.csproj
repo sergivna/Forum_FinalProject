@@ -7,6 +7,34 @@
   <ItemGroup>
     <Compile Remove="Migrations\20191225021649_test2.cs" />
     <Compile Remove="Migrations\20191225021649_test2.Designer.cs" />
+    <Compile Remove="Migrations\20191226125312_removeUserRole.cs" />
+    <Compile Remove="Migrations\20191226125312_removeUserRole.Designer.cs" />
+    <Compile Remove="Migrations\20191231174934_addLAzyLoading.cs" />
+    <Compile Remove="Migrations\20191231174934_addLAzyLoading.Designer.cs" />
+    <Compile Remove="Migrations\20200102183557_addAge.cs" />
+    <Compile Remove="Migrations\20200102183557_addAge.Designer.cs" />
+    <Compile Remove="Migrations\20200107174244_AddQuestionId.cs" />
+    <Compile Remove="Migrations\20200107174244_AddQuestionId.Designer.cs" />
+    <Compile Remove="Migrations\20200109102611_AddCountryId.cs" />
+    <Compile Remove="Migrations\20200109102611_AddCountryId.Designer.cs" />
+    <Compile Remove="Migrations\20200109214937_Role.cs" />
+    <Compile Remove="Migrations\20200109214937_Role.Designer.cs" />
+    <Compile Remove="Migrations\20200110132516_Identity.cs" />
+    <Compile Remove="Migrations\20200110132516_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20200110132648_Identity.cs" />
+    <Compile Remove="Migrations\20200110132648_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20200110133214_Identity.cs" />
+    <Compile Remove="Migrations\20200110133214_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20200110133246_Identity.cs" />
+    <Compile Remove="Migrations\20200110133246_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20200110133419_Identity.cs" />
+    <Compile Remove="Migrations\20200110133419_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20200110134337_Identity2.cs" />
+    <Compile Remove="Migrations\20200110134337_Identity2.Designer.cs" />
+    <Compile Remove="Migrations\20200110134458_Identity2.cs" />
+    <Compile Remove="Migrations\20200110134458_Identity2.Designer.cs" />
+    <Compile Remove="Migrations\20200110175538_Identity3.cs" />
+    <Compile Remove="Migrations\20200110175538_Identity3.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +53,7 @@
     <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.3" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0">
       <PrivateAssets>all</PrivateAssets>

@@ -8,5 +8,6 @@ namespace DAL.Entities
     public class ApplicationRole : IdentityRole<int>
     {
         public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
+        
     }
 }

@@ -10,13 +10,13 @@ namespace WebAPI
 
         public const string Audience = "http://localhost:4200";
 
-        public const string Issuer = "http://localhost:3035";
+        public const string Issuer = "http://localhost:44354";
 
-        public const string HashKey = "some randomly generated cryptographically good number";
+        public static string HashKey = Guid.NewGuid().ToString();
 
         public static TimeSpan TokenLifetTime = TimeSpan.FromHours(1);
 
-        public const string HashAlgorithm = SecurityAlgorithms.HmacSha256Signature;
+        public const string HashAlgorithm = SecurityAlgorithms.HmacSha256;
 
         public static SigningCredentials CreateCredentials()
         {

@@ -5,10 +5,9 @@ using System.Text;
 
 namespace BLL.DTO
 {
-    class CountryDTO
+    public class CountryDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public virtual ICollection<UserProfile> UserProfiles { get; set; }
     }
 }

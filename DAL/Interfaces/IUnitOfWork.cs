@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
@@ -11,7 +12,10 @@ namespace DAL.Interfaces
         IRepository<Category> Categories { get; }
         IRepository<Question> Questions { get; }
         IRepository<Comment> Comments { get; }
-        void SaveChanges();
+        IRepository<Country> Countries { get; }
+        IRepository<ApplicationRole> Roles { get; }
+        IAdditionalRepository Additional { get; }
+        Task SaveChanges();
 
     }
 }

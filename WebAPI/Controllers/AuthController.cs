@@ -5,6 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Collections.Generic;
+using System.Linq;
+using BLL.Interfaces;
+using BLL.DTO;
+using System.Threading.Tasks;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace WebAPI.Controllers
 {
@@ -12,26 +19,22 @@ namespace WebAPI.Controllers
     [Route("api/auth")]
     public class AuthController : ControllerBase
     {
-        private static readonly SignInModel _user = new SignInModel
-        {
-            UserName = "username",
-            Password = "password"
-        };
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IAuthService authService;
 
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public AuthController(IHttpContextAccessor httpContextAccessor)
+        public AuthController(IHttpContextAccessor httpContextAccessor, IAuthService authService)
         {
-            _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            this.authService = authService;
         }
 
         [HttpPost]
         [Route("sign-in")]
-        public IActionResult SignIn([FromBody] SignInModel signInModel)
+        public async Task<IActionResult> SignIn([FromBody]UserLoginDTO userLogin)
         {
-            if (signInModel == null)
+            if (userLogin == null)
             {
-                return BadRequest($"{nameof(signInModel)} must be passed");
+                return BadRequest($"{nameof(userLogin)} must be passed");
             }
 
             if (!ModelState.IsValid)
@@ -39,56 +42,44 @@ namespace WebAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            bool isValid = _user.Password == signInModel.Password
-                && _user.UserName == signInModel.UserName;
+            var userDb = await authService.LogIn(userLogin);
 
-            if (!isValid)
+            if (userDb == null)
             {
-                return BadRequest("Wrong username or password");
+                return Unauthorized();
             }
 
-            string token = CreateToken(signInModel.UserName, out DateTime expiresAt);
+            var token = await authService.GetToken(userDb);
 
-            _httpContextAccessor.HttpContext.Response.Cookies.Append(JwtHelper.JwtCookieName, token,
+
+            httpContextAccessor.HttpContext.Response.Cookies.Append(JwtHelper.JwtCookieName, token,
                 new CookieOptions
                 {
                     HttpOnly = true,
-                    Expires = expiresAt.AddDays(2),
+                    Expires = DateTime.Now.AddDays(2),
                     SameSite = SameSiteMode.None,
                 });
 
-            return Ok (new { jwtToken = token });
+            //return Ok(new { jwtToken = token });
+            return Ok(new { token, userDb });
         }
 
-        private string CreateToken(string userName, out DateTime expiresAt)
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register(UserRegisterDTO user)
         {
-            DateTime issuedAt = DateTime.UtcNow;
-            expiresAt = issuedAt + JwtHelper.TokenLifetTime;
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            //create a identity and add claims to the user which we want to log in
-            var claimsIdentity = new ClaimsIdentity(new[]
+            if (!ModelState.IsValid)
             {
-                new Claim(ClaimTypes.Name, userName)
-            });
+                return BadRequest(ModelState);
+            }
 
-
-            SigningCredentials signingCredentials = JwtHelper.CreateCredentials();
-
-            var token = tokenHandler
-                .CreateJwtSecurityToken(
-                    issuer: JwtHelper.Issuer,
-                    audience: JwtHelper.Audience,
-                    subject: claimsIdentity,
-                    notBefore: issuedAt,
-                    expires: expiresAt,
-                    signingCredentials: signingCredentials);
-
-            string tokenString = tokenHandler.WriteToken(token);
-
-            return tokenString;
+            var result = await authService.Register(user);
+            if(result.Succeeded)
+            return Ok();
+            else
+                return BadRequest(result.Errors);
         }
+
     }
 }
-

@@ -1,10 +1,12 @@
 ﻿using DAL.EF;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
@@ -16,9 +18,9 @@ namespace DAL.Repositories
         {
             this.context = context;
         }
-        public void Create(ApplicationRole item)
+        public async Task Create(ApplicationRole item)
         {
-            context.Roles.Add(item);
+            await context.Roles.AddAsync(item);
         }
 
         public void Delete(int id)
@@ -32,14 +34,14 @@ namespace DAL.Repositories
             return context.Roles.Where(predicate);
         }
 
-        public IEnumerable<ApplicationRole> GetAll()
+        public async Task<IEnumerable<ApplicationRole>> GetAll()
         {
-            return context.Roles;
+            return await context.Roles.ToListAsync();
         }
 
-        public ApplicationRole GetById(int id)
+        public async Task<ApplicationRole> GetById(int id)
         {
-            return context.Roles.Find(id);
+            return await context.Roles.FindAsync(id);
         }
 
         public void Update(ApplicationRole item)

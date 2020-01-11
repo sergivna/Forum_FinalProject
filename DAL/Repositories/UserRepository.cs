@@ -1,10 +1,12 @@
 ﻿using DAL.EF;
 using DAL.Entities;
 using DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DAL.Repositories
 {
@@ -16,9 +18,9 @@ namespace DAL.Repositories
         {
             this.context = context;
         }
-        public void Create(ApplicationUser item)
+        public async Task Create(ApplicationUser item)
         {
-            context.Users.Add(item);
+            await  context.Users.AddAsync(item);
         }
 
         public void Delete(int id)
@@ -32,14 +34,14 @@ namespace DAL.Repositories
             return context.Users.Where(predicate);
         }
 
-        public IEnumerable<ApplicationUser> GetAll()
+        public async Task<IEnumerable<ApplicationUser>> GetAll()
         {
-            return context.Users;
+            return  await context.Users.ToListAsync();
         }
 
-        public ApplicationUser GetById(int id)
+        public async Task<ApplicationUser> GetById(int id)
         {
-            return context.Users.Find(id);
+            return await context.Users.FindAsync(id);
         }
 
         public void Update(ApplicationUser item)

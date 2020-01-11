@@ -22,9 +22,10 @@ namespace DAL.Entities
         public DateTime Birthday { get; set; }
         public string Status { get; set; }
         public string PhotoPath { get; set; }
+       
         [ForeignKey("CountryId")]
-        public Country Country { get; set; }
-        public int CountryId { get; set; }
+        public virtual Country Country { get; set; }
+        public int? CountryId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }

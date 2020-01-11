@@ -15,16 +15,16 @@ namespace ConsoleApp1
             //    context.Countries.Add(country);
             //    context.SaveChanges();
         //}         
-        using (var context = new Context())
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    Category category = new Category() { Name = "category - " + i };
-                    context.Categories.Add(category);
-                    context.SaveChanges();
-                }
+        //using (var context = new Context())
+        //    {
+        //        for (int i = 0; i < 5; i++)
+        //        {
+        //            Category category = new Category() { Name = "category - " + i };
+        //            context.Categories.Add(category);
+        //            context.SaveChanges();
+        //        }
              
-            }
+        //    }
 
 }
     }

@@ -1,10 +1,12 @@
-﻿using System;
+﻿using BLL.DTO;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BLL.Interfaces
 {
-    class IUserService
+    public interface IUserService
     {
         //Task<IdentityResult> CreateAsync(UserDTO user);
         //Task<ClaimsIdentity> AuthenticateAsync(UserLoginDTO user);
@@ -19,5 +21,10 @@ namespace BLL.Interfaces
         //ICollection<UserDTO> GetUsersByCity(string city);
         //IdentityResult Delete(string id);
         //void Dispose();
+
+         int Test();
+        Task<UserDTO> GetUser(int id);
+        Task SavePhoto(string photoPath, int userId);
+        Task UpdateUser(UserDTO user);
     }
 }

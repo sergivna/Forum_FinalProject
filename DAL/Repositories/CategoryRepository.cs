@@ -1,9 +1,11 @@
 ﻿using DAL.EF;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
@@ -15,9 +17,9 @@ namespace DAL.Interfaces
             this.context = context;
         }
 
-        public void Create(Category item)
+        public async Task Create(Category item)
         {
-            context.Categories.Add(item);
+           await context.Categories.AddAsync(item);
         }
 
         public void Delete(int id)
@@ -26,14 +28,14 @@ namespace DAL.Interfaces
             context.Categories.Remove(category);
         }
 
-        public IEnumerable<Category> GetAll()
+        public async Task<IEnumerable<Category>> GetAll()
         {
-            return context.Categories;
+            return await context.Categories.ToListAsync();
         }
 
-        public Category GetById(int id)
+        public async Task<Category> GetById(int id)
         {
-            return context.Categories.Find(id);
+            return await context.Categories.FindAsync(id);
         }
 
         public void Update(Category item)

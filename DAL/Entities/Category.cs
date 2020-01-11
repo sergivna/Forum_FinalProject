@@ -14,7 +14,7 @@ namespace DAL.Entities
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string Descriptios { get; set; }
+        public string Description { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
     }
 }
