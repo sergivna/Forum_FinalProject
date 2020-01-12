@@ -8,13 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Mapper = BLL.Infrastructure.Mapper;
 
 namespace BLL.Services
 {
     public class AdminService: IAdminService
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly IMapper mapper;
         public AdminService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
@@ -22,7 +22,7 @@ namespace BLL.Services
 
         public async Task CreateCategory(CategoryDTO category)
         {
-            var categoryToCreate = CustomMapperBLL.FromCategoryDTOToCategory(category);
+            var categoryToCreate = Mapper.FromCategoryDTOToCategory(category);
             await unitOfWork.Categories.Create(categoryToCreate);
             await unitOfWork.SaveChanges();
         }

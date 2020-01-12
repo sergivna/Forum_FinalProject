@@ -25,7 +25,7 @@ namespace BLL.Services
         public async Task AddQuestion(QuestionToCreateDTO questionDTO)
         {
 
-            var question = CustomMapperBLL.FromQuestionDTOToQuestion(questionDTO);
+            var question = Infrastructure.Mapper.FromQuestionDTOToQuestion(questionDTO);
             question.DateOfCreate = DateTime.Now;
             await unitOfWork.Questions.Create(question);
             await unitOfWork.SaveChanges();
@@ -34,14 +34,14 @@ namespace BLL.Services
         public async Task<QuestionDTO> GetQuestion(int id)
         {
             var question = await unitOfWork.Questions.GetById(id);
-            return CustomMapperBLL.FromQuestionToQuestionDTO(question);
+            return Infrastructure.Mapper.FromQuestionToQuestionDTO(question);
         }
 
         public async Task<IEnumerable<QuestionDTO>> GetQuestionsByCategoryId(int id)
         {
             var questions = await unitOfWork.Questions.GetAll();
             var result = questions.Where(cat => cat.CategoryId == id).ToList();
-            var res =  CustomMapperBLL.FromQuestionToQuestionDTO(result);
+            var res = Infrastructure.Mapper.FromQuestionToQuestionDTO(result);
             return res;
         }
 

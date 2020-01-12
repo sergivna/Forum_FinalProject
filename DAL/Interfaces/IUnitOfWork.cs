@@ -15,7 +15,7 @@ namespace DAL.Interfaces
         IRepository<Country> Countries { get; }
         IRepository<ApplicationRole> Roles { get; }
         IAdditionalRepository Additional { get; }
-        Task SaveChanges();
+        Task<bool> SaveChanges();
 
     }
 }

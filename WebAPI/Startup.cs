@@ -56,11 +56,11 @@ namespace WebAPI
 
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>(opt =>
             {
-                opt.Password.RequireDigit = true;
-                opt.Password.RequiredLength = 8;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 6;
                 opt.Password.RequireNonAlphanumeric = false;
-                opt.Password.RequireUppercase = true;
-                opt.Password.RequireLowercase = true;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
             }
            );
 
@@ -95,7 +95,7 @@ namespace WebAPI
             app.UseRouting();
          
             //app.UseStatusCodePages();
-            app.UseMiddleware<TokenCookieConvertingMiddleware>();
+            //app.UseMiddleware<TokenCookieConvertingMiddleware>();
             
             app.UseCors(options =>
                   options.AllowAnyOrigin()

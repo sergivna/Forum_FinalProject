@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BLL.DTO;
 using BLL.Interfaces;
@@ -32,7 +33,10 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment(CommentToCreate comment)
         {
-             var result = await commentService.AddComment(comment);
+            if (comment.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();
+
+            var result = await commentService.AddComment(comment);
             return Ok(result);
         }
     }

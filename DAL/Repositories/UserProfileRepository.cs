@@ -46,9 +46,17 @@ namespace DAL.Repositories
             return user;
         }
 
-        public void Update(UserProfile item)
+        public bool Update(UserProfile item)
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified; 
+            try
+            {
+                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

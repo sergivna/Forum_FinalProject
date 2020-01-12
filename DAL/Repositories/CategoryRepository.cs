@@ -38,9 +38,17 @@ namespace DAL.Interfaces
             return await context.Categories.FindAsync(id);
         }
 
-        public void Update(Category item)
+        public bool Update(Category item)
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            try
+            {
+                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return true;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         public IEnumerable<Category> Find(Func<Category, bool> predicate)

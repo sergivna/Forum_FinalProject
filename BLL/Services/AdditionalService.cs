@@ -23,8 +23,7 @@ namespace BLL.Services
         public async Task<IEnumerable<CountryDTO>> GetCountries()
         {
             var contries = await unitOfWork.Additional.GetCountries();
-            var result =  CustomMapperBLL.FromCountryToCountryDTO(contries);
-            return result;
+            return Infrastructure.Mapper.FromCountryToCountryDTO(contries);
         }
     }
 }

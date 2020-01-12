@@ -22,7 +22,7 @@ namespace BLL.Services
         public async Task<IEnumerable<CategoryDTO>> GetAllCategories()
         {
             var categories = await unitOfWork.Categories.GetAll();
-            return  CustomMapperBLL.FromCategoryToCategoryDTO(categories);
+            return Infrastructure.Mapper.FromCategoryToCategoryDTO(categories);
         }
 
         public async Task<CategoryDTO> GetCategory(int id)
@@ -30,7 +30,7 @@ namespace BLL.Services
             var category =  await unitOfWork.Categories.GetById(id);
             if (category == null)
                 throw new NullReferenceException("category is null");
-            return CustomMapperBLL.FromCategoryToCategoryDTO(category);
+            return Infrastructure.Mapper.FromCategoryToCategoryDTO(category);
         }
     }
 }

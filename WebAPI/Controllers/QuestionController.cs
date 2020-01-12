@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
 
     public class QuestionController : ControllerBase
     {
@@ -22,8 +21,7 @@ namespace WebAPI.Controllers
             this.questionService = questionService;
         }
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestions(int categoryId)
         {
             var result = await questionService.GetQuestionsByCategoryId(categoryId);
@@ -35,7 +33,6 @@ namespace WebAPI.Controllers
         [HttpGet] 
         public async Task<IActionResult> GetQuestionById(int questionId)
         {
-            //if id is null Badrequest
             var result = await questionService.GetQuestion(questionId);
             if (result == null)
                 return NotFound();
@@ -43,6 +40,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public async Task<IActionResult> AddQuestion(QuestionToCreateDTO questionDTO)
         {
             if(questionDTO.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))

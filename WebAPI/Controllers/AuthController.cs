@@ -1,17 +1,10 @@
-﻿using WebAPI.Models;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Collections.Generic;
-using System.Linq;
 using BLL.Interfaces;
 using BLL.DTO;
 using System.Threading.Tasks;
-using System.Text;
-using Microsoft.Extensions.Configuration;
+
 
 namespace WebAPI.Controllers
 {
@@ -28,58 +21,33 @@ namespace WebAPI.Controllers
             this.authService = authService;
         }
 
-        [HttpPost]
-        [Route("sign-in")]
+        [HttpPost("sign-in")]
         public async Task<IActionResult> SignIn([FromBody]UserLoginDTO userLogin)
         {
-            if (userLogin == null)
-            {
-                return BadRequest($"{nameof(userLogin)} must be passed");
-            }
+            var userFromDB = await authService.LogIn(userLogin);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var userDb = await authService.LogIn(userLogin);
-
-            if (userDb == null)
+            if (userFromDB == null)
             {
                 return Unauthorized();
             }
 
-            var token = await authService.GetToken(userDb);
+            var token = await authService.GetToken(userFromDB);
 
-
-            httpContextAccessor.HttpContext.Response.Cookies.Append(JwtHelper.JwtCookieName, token,
-                new CookieOptions
-                {
-                    HttpOnly = true,
-                    Expires = DateTime.Now.AddDays(2),
-                    SameSite = SameSiteMode.None,
-                });
-
-            //return Ok(new { jwtToken = token });
-            return Ok(new { token, userDb });
+            return Ok(new 
+            { 
+                token,
+                userFromDB 
+            });
         }
 
-        [HttpPost]
-        [Route("register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(UserRegisterDTO user)
         {
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var result = await authService.Register(user);
-            if(result.Succeeded)
-            return Ok();
+            if (result.Succeeded)
+                return Ok();
             else
                 return BadRequest(result.Errors);
         }
-
     }
 }

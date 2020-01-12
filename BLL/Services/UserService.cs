@@ -8,6 +8,7 @@ using DAL.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,34 +38,52 @@ namespace BLL.Services
        public async Task<UserDTO> GetUser(int id)
         {
             var user = await unitOfWork.UserProfiles.GetById(id);
-            if(user == null)
+            if (user == null)
             {
                 throw new Exception("User isn`t exist");
-            }
-            
-            var userReturn = CustomMapperBLL._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(user);
+            }          
+            var userReturn = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(user);
             return userReturn;
         }
 
         public async Task SavePhoto(string photoPath, int userId)
         {
            var user = await unitOfWork.UserProfiles.GetById(userId);
+
+            if(user == null)
+            {
+                throw new Exception("User isn`t exsist");
+            }
+
             user.PhotoPath = photoPath;
             await unitOfWork.SaveChanges();
-
         }
 
-        public  async Task UpdateUser(UserDTO user)
+        public  async Task<bool> UpdateUser(UserDTO user)
         {
             var userUpdate = await unitOfWork.UserProfiles.GetById(user.Id);
+
+            if(userUpdate == null)
+            {
+                throw new Exception("User is not exsist");
+            }
+
             userUpdate.Name = user.Name;
             userUpdate.Surname = user.Surname;
-            //var country = await unitOfWork.Countries.GetById(user.CountryId);
             userUpdate.CountryId = user.CountryId;
             userUpdate.Birthday = user.Birthday;
+            userUpdate.Status = user.Status;
 
-            unitOfWork.UserProfiles.Update(userUpdate);
-            await unitOfWork.SaveChanges();
+
+            if (!unitOfWork.UserProfiles.Update(userUpdate))
+            {
+                return false;
+            }
+
+            if (!await unitOfWork.SaveChanges())
+                return false;
+
+            return true;
         }
     }
 }

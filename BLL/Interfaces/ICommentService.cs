@@ -10,5 +10,7 @@ namespace BLL.Interfaces
     {
         Task<IEnumerable<CommentDTO>> GetCommentsByQuestion(int id);
         Task<CommentDTO> AddComment(CommentToCreate comment);
+
+
     }
 }

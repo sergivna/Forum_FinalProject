@@ -111,9 +111,9 @@ namespace DAL
             GC.SuppressFinalize(this);
         }
 
-        public async Task SaveChanges()
+        public async Task<bool> SaveChanges()
         {
-            await context.SaveChangesAsync();
+            return await context.SaveChangesAsync() != 0;
         }
     }
 }

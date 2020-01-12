@@ -11,7 +11,6 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryService categoryService;
@@ -30,12 +29,14 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> GetCategories(int id)
+        public async Task<IActionResult> GetCategory(int id)
         {
-            var res = await categoryService.GetCategory(id);
-            return Ok(res);
+            var category = await categoryService.GetCategory(id);
+            if (category == null)
+            {
+                return BadRequest("Category isn't exsist");
+            }
+            return Ok(category);
         }
-
-
     }
 }

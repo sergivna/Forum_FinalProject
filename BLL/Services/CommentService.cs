@@ -34,9 +34,9 @@ namespace BLL.Services
             await unitOfWork.SaveChanges();
 
             
-            var commentToReturn = CustomMapperBLL.FromCommentToCommentDTO(commentToCreate);
-            commentToReturn.Question = CustomMapperBLL.FromQuestionToQuestionDTO(await unitOfWork.Questions.GetById(comment.QuestionId));
-            commentToReturn.User = CustomMapperBLL.FromUserToUserDTO(await unitOfWork.UserProfiles.GetById(comment.UserId));
+            var commentToReturn = Mapper.FromCommentToCommentDTO(commentToCreate);
+            commentToReturn.Question = Mapper.FromQuestionToQuestionDTO(await unitOfWork.Questions.GetById(comment.QuestionId));
+            commentToReturn.User = Mapper.FromUserToUserDTO(await unitOfWork.UserProfiles.GetById(comment.UserId));
             return commentToReturn;
         }
 
@@ -44,7 +44,7 @@ namespace BLL.Services
         {
             var comments = await unitOfWork.Comments.GetAll();
             var result = comments.Where(q => q.Question.Id == questionId).ToList();
-            return CustomMapperBLL.FromCommentToCommentDTO(result);
+            return Mapper.FromCommentToCommentDTO(result);
         }
     }
 }

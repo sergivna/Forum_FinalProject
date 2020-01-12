@@ -44,9 +44,17 @@ namespace DAL.Repositories
             return await context.Roles.FindAsync(id);
         }
 
-        public void Update(ApplicationRole item)
+        public bool Update(ApplicationRole item)
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified; 
+            try
+            {
+                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

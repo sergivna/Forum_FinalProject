@@ -19,31 +19,33 @@ namespace WebAPI.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService userService;
-        private IWebHostEnvironment _env;
+        private IWebHostEnvironment env;
 
         public UserController(IUserService userService, IWebHostEnvironment env)
         {
             this.userService = userService;
-            _env = env;
+            this.env = env;
         }
 
-        [HttpGet]
-        [Route("")]
+        [HttpGet("")]
         public async Task<IActionResult> GetCurrentUser()
         {
             var currentId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
             var user = await userService.GetUser(currentId);
+
+            if (user == null)
+            {
+                return BadRequest("User is not exsist");
+            }
+
             return Ok(user);
         }
 
-        [HttpPost, DisableRequestSizeLimit]
-        [Route("photo")]
+        [HttpPost("photo"), DisableRequestSizeLimit]
         public async Task<IActionResult> UploadPhoto(IFormFile filesData)
         {
-            // var file = Request.Form.Files[0];
-
             string fileName = Guid.NewGuid() + "_" + filesData.FileName;
-            string path = _env.WebRootPath + "\\Files\\" + fileName;
+            string path = env.WebRootPath + "\\Files\\" + fileName;
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
@@ -55,12 +57,19 @@ namespace WebAPI.Controllers
             return Ok(new { fileName });
         }
 
-        [HttpPut]
-        [Route("{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(UserDTO userDTO)
         {
-            //isAuthorize
-            await userService.UpdateUser(userDTO);
+            if(userDTO.Id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+            {
+                return Unauthorized();
+            }
+
+            if (!await userService.UpdateUser(userDTO)) 
+            {
+                return BadRequest("Problem with updating user");
+            };
+
             return Ok();
         }
     }

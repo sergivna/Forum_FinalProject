@@ -44,9 +44,17 @@ namespace DAL.Repositories
             return await context.Countries.FindAsync(id);
         }
 
-        public void Update(Country item)
+        public bool Update(Country item)
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            try
+            {
+                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

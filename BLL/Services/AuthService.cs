@@ -42,7 +42,7 @@ namespace BLL.Services
                 new Claim(ClaimTypes.NameIdentifier, userDTO.Id.ToString()),
                 new Claim(ClaimTypes.Name, userDTO.UserName)
             };
-            var appuser = CustomMapperBLL._fromClientProfileToUserDTO.CreateMapper().Map<UserDTO, ApplicationUser>(userDTO);
+            var appuser = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserDTO, ApplicationUser>(userDTO);
             var roles = await userManager.GetRolesAsync(appuser);
 
             foreach (var role in roles)
@@ -82,25 +82,22 @@ namespace BLL.Services
             var user = await userManager.FindByEmailAsync(userLogin.Email);
             if (user == null)
                 return null;
-            var result = await signInManager.CheckPasswordSignInAsync(user, userLogin.Password, false);           
-            if (result.Succeeded)
-            {
-                var roles = await unitOfWork.Roles.GetAll();
-                //List<RoleDTO> roleDTOs = new List<RoleDTO>();
-                //var roles = await Task.WhenAll(roles.Where())
-                List<string> result1 = roles.Where(a => user.ApplicationUserRoles.Any(b => a.Id == b.RoleId)).Select(rol => rol.Name).ToList();
-                //foreach(var item in roles)
-                //{
-                //    if (user.ApplicationUserRoles.Any(r => r.RoleId == item.Id))
-                //        roleDTOs.Add(CustomMapperBLL.FromRoleToRoleDTO(item));
 
-                //}              
-                var profile =  await unitOfWork.UserProfiles.GetById(user.Id);
-                         
-                var userDTO = CustomMapperBLL._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(profile); //  mapper.Map<UserDTO>(user.UserProfile);
-                userDTO.Roles = result1;
+            var userFromDB = await signInManager
+                .CheckPasswordSignInAsync(user, userLogin.Password, false);        
+            
+            if (userFromDB.Succeeded)
+            {
+                var rolesAll = await unitOfWork.Roles.GetAll();
+                var userRoles = rolesAll.Where(a => user.ApplicationUserRoles.Any(b => a.Id == b.RoleId)).Select(rol => rol.Name).ToList(); 
+                
+                var profile =  await unitOfWork.UserProfiles.GetById(user.Id);                       
+                var userDTO = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(profile);
+                userDTO.Roles = userRoles;
+
                 return userDTO;   
             }
+
             return null;
         }
 
@@ -116,23 +113,22 @@ namespace BLL.Services
                     UserName = user.Email,
                     Email = user.Email
                 };
-                var result = await userManager.CreateAsync(applicationUser, user.Password);
+
+                IdentityResult result = await userManager.CreateAsync(applicationUser, user.Password);
 
                 if (result.Succeeded)
                 {
-                   // appUser = await userManager.FindByEmailAsync(user.Email);
                     await userManager.AddToRoleAsync(applicationUser, "Member");
 
                     UserProfile userProfile = new UserProfile()
                     {
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    User = applicationUser
-
+                        Name = user.Name,
+                        Surname = user.Surname,
+                        User = applicationUser
                     };
 
-                    unitOfWork.UserProfiles.Create(userProfile);
-                    unitOfWork.SaveChanges();
+                    await unitOfWork.UserProfiles.Create(userProfile);
+                    await unitOfWork.SaveChanges();
                 }
 
 

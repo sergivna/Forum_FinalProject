@@ -11,7 +11,7 @@ namespace DAL.Interfaces
         Task<T> GetById(int id);
         Task<IEnumerable<T>> GetAll();
         void Delete(int id);
-        void Update(T item);
+        bool Update(T item);
         IEnumerable<T> Find(Func<T, bool> predicate);
     }
 }

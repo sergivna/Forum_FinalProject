@@ -44,10 +44,17 @@ namespace DAL.Repositories
             return await context.Comments.FindAsync(id);
         }
 
-        public void Update(Comment item)
+        public bool Update(Comment item)
         {
-            context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-
+            try
+            {
+                context.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
