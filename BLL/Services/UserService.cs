@@ -21,39 +21,24 @@ namespace BLL.Services
         private readonly UserManager<ApplicationUser> userManager;
 
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public UserService(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            this.mapper = MappingConfiguration.ConfigureMapper().CreateMapper();
             this.userManager = userManager;
-        }
-
-        public int Test()
-        {
-            unitOfWork.Categories.GetById(1);
-          
-            return 5;
         }
 
        public async Task<UserDTO> GetUser(int id)
         {
             var user = await unitOfWork.UserProfiles.GetById(id);
-            if (user == null)
-            {
-                throw new Exception("User isn`t exist");
-            }          
-            var userReturn = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(user);
+         
+            var userReturn = mapper.Map<UserDTO>(user);
             return userReturn;
         }
 
         public async Task SavePhoto(string photoPath, int userId)
         {
            var user = await unitOfWork.UserProfiles.GetById(userId);
-
-            if(user == null)
-            {
-                throw new Exception("User isn`t exsist");
-            }
 
             user.PhotoPath = photoPath;
             await unitOfWork.SaveChanges();
@@ -63,11 +48,6 @@ namespace BLL.Services
         {
             var userUpdate = await unitOfWork.UserProfiles.GetById(user.Id);
 
-            if(userUpdate == null)
-            {
-                throw new Exception("User is not exsist");
-            }
-
             userUpdate.Name = user.Name;
             userUpdate.Surname = user.Surname;
             userUpdate.CountryId = user.CountryId;
@@ -76,9 +56,8 @@ namespace BLL.Services
 
 
             if (!unitOfWork.UserProfiles.Update(userUpdate))
-            {
                 return false;
-            }
+
 
             if (!await unitOfWork.SaveChanges())
                 return false;

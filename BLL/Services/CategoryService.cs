@@ -14,15 +14,15 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public CategoryService(IUnitOfWork unitOfWork, IMapper mapper)
+        public CategoryService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            mapper = MappingConfiguration.ConfigureMapper().CreateMapper();
         }
         public async Task<IEnumerable<CategoryDTO>> GetAllCategories()
         {
             var categories = await unitOfWork.Categories.GetAll();
-            return Infrastructure.Mapper.FromCategoryToCategoryDTO(categories);
+            return mapper.Map<IEnumerable<CategoryDTO>>(categories);
         }
 
         public async Task<CategoryDTO> GetCategory(int id)
@@ -30,7 +30,7 @@ namespace BLL.Services
             var category =  await unitOfWork.Categories.GetById(id);
             if (category == null)
                 throw new NullReferenceException("category is null");
-            return Infrastructure.Mapper.FromCategoryToCategoryDTO(category);
+            return mapper.Map<CategoryDTO>(category);
         }
     }
 }

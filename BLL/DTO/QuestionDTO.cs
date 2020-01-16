@@ -12,7 +12,6 @@ namespace BLL.DTO
         public virtual UserDTO User { get; set; }
         public virtual CategoryDTO Category { get; set; }
         public DateTime DateOfCreate { get; set; }
-
         public int CommentsCount { get; set; }
         //public virtual ICollection<CommentDTO> Comments { get; set; }
     }

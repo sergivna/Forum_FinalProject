@@ -27,6 +27,20 @@ namespace WebAPI.Controllers
             this.env = env;
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetUserById(int userId)
+        {
+
+            var user = await userService.GetUser(userId);
+
+            if (user == null)
+            {
+                return BadRequest("User is not exsist");
+            }
+
+            return Ok(user);
+        }
+
         [HttpGet("")]
         public async Task<IActionResult> GetCurrentUser()
         {

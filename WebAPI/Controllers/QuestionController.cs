@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
-
+    [ApiController]
     public class QuestionController : ControllerBase
     {
         private readonly IQuestionService questionService;
@@ -39,14 +39,14 @@ namespace WebAPI.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
-        [Authorize]
-        public async Task<IActionResult> AddQuestion(QuestionToCreateDTO questionDTO)
+
+        [HttpPost]
+        public async Task<IActionResult> AddQuestion(QuestionToCreate question)
         {
-            if(questionDTO.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                if(question.UserId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
             
-            await questionService.AddQuestion(questionDTO);
+            await questionService.AddQuestion(question);
             return Ok();
         }
 

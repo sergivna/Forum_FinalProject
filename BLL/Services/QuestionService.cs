@@ -16,17 +16,18 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public QuestionService(IUnitOfWork unitOfWork, IMapper mapper)
+        public QuestionService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            mapper = MappingConfiguration.ConfigureMapper().CreateMapper();
         }
 
-        public async Task AddQuestion(QuestionToCreateDTO questionDTO)
+        public async Task AddQuestion(QuestionToCreate questionDTO)
         {
+            var question = mapper.Map<Question>(questionDTO);
 
-            var question = Infrastructure.Mapper.FromQuestionDTOToQuestion(questionDTO);
             question.DateOfCreate = DateTime.Now;
+
             await unitOfWork.Questions.Create(question);
             await unitOfWork.SaveChanges();
         }
@@ -34,14 +35,14 @@ namespace BLL.Services
         public async Task<QuestionDTO> GetQuestion(int id)
         {
             var question = await unitOfWork.Questions.GetById(id);
-            return Infrastructure.Mapper.FromQuestionToQuestionDTO(question);
+            return mapper.Map<QuestionDTO>(question);
         }
 
         public async Task<IEnumerable<QuestionDTO>> GetQuestionsByCategoryId(int id)
         {
             var questions = await unitOfWork.Questions.GetAll();
             var result = questions.Where(cat => cat.CategoryId == id).ToList();
-            var res = Infrastructure.Mapper.FromQuestionToQuestionDTO(result);
+            var res = mapper.Map<IEnumerable<QuestionDTO>>(result);
             return res;
         }
 

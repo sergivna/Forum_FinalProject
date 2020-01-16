@@ -14,9 +14,6 @@ namespace DAL.EF
                 IdentityUserClaim<int>, ApplicationUserRole, IdentityUserLogin<int>,
                 IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        //public Context(DbContextOptions<Context> options) : base(options)
-        //{ }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,13 +24,9 @@ namespace DAL.EF
            .AddJsonFile("appsettings.json")
            .Build();
 
-
-
             optionsBuilder
                 .UseLazyLoadingProxies()
                 .UseSqlServer(configuration.GetConnectionString("NewDB"));
-
-
 
             // optionsBuilder.UseSqlServer(ConfigurationManager.AppSettings["ForumDatabase"]);
         }
@@ -41,9 +34,7 @@ namespace DAL.EF
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
 
             builder.Entity<ApplicationUser>()
                 .HasMany(e => e.ApplicationUserRoles)

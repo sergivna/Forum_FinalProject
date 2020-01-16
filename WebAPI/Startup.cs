@@ -52,8 +52,6 @@ namespace WebAPI
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddAutoMapper(typeof(Startup));
             
-
-
             IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>(opt =>
             {
                 opt.Password.RequireDigit = false;
@@ -93,9 +91,6 @@ namespace WebAPI
             }
 
             app.UseRouting();
-         
-            //app.UseStatusCodePages();
-            //app.UseMiddleware<TokenCookieConvertingMiddleware>();
             
             app.UseCors(options =>
                   options.AllowAnyOrigin()

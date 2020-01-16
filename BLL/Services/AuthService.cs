@@ -26,11 +26,11 @@ namespace BLL.Services
         private readonly SignInManager<ApplicationUser> signInManager;
         public readonly IConfiguration configuration;
 
-        public AuthService(IUnitOfWork unitOfWork, IMapper mapper,
+        public AuthService(IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            mapper = MappingConfiguration.ConfigureMapper().CreateMapper();
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.configuration = configuration;
@@ -42,7 +42,7 @@ namespace BLL.Services
                 new Claim(ClaimTypes.NameIdentifier, userDTO.Id.ToString()),
                 new Claim(ClaimTypes.Name, userDTO.UserName)
             };
-            var appuser = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserDTO, ApplicationUser>(userDTO);
+            var appuser = mapper.Map<UserDTO, ApplicationUser>(userDTO);
             var roles = await userManager.GetRolesAsync(appuser);
 
             foreach (var role in roles)
@@ -52,7 +52,7 @@ namespace BLL.Services
 
 
             var symetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Token:Key").Value));
-                var singin = new SigningCredentials(symetricSecurityKey, SecurityAlgorithms.HmacSha256);
+            var singin = new SigningCredentials(symetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -63,13 +63,6 @@ namespace BLL.Services
                 Expires = DateTime.Now.AddDays(1),
                 SigningCredentials = singin
             };
-
-            //var token = new JwtSecurityToken(
-            //        issuer: "issuer",
-            //        audience: "audience",
-            //        expires: DateTime.Now.AddHours(1),
-            //        signingCredentials: singin
-            //    );
 
                  var handler = new JwtSecurityTokenHandler();
                  var token = handler.CreateToken(tokenDescriptor);
@@ -92,7 +85,7 @@ namespace BLL.Services
                 var userRoles = rolesAll.Where(a => user.ApplicationUserRoles.Any(b => a.Id == b.RoleId)).Select(rol => rol.Name).ToList(); 
                 
                 var profile =  await unitOfWork.UserProfiles.GetById(user.Id);                       
-                var userDTO = Infrastructure.Mapper._fromClientProfileToUserDTO.CreateMapper().Map<UserProfile, UserDTO>(profile);
+                var userDTO = mapper.Map<UserDTO>(profile);
                 userDTO.Roles = userRoles;
 
                 return userDTO;   
@@ -103,11 +96,6 @@ namespace BLL.Services
 
         public async Task<IdentityResult> Register(UserRegisterDTO user)
         {
-            //ApplicationUser appUser = await userManager.FindByEmailAsync(user.Email);
-            //if (appUser == null)
-            //{
-                //ApplicationUser userCreate = mapper.Map<ApplicationUser>(user);
-
                 ApplicationUser applicationUser = new ApplicationUser()
                 {
                     UserName = user.Email,
@@ -130,21 +118,7 @@ namespace BLL.Services
                     await unitOfWork.UserProfiles.Create(userProfile);
                     await unitOfWork.SaveChanges();
                 }
-
-
-                
-                //UserProfile userProfile = new UserProfile()
-                //{
-                //    Id = applicationUser.Id;
-                //};
-
                 return result;
-            //}
-            //else
-            //{
-            //    return IdentityResult.Failed(new IdentityError() { Description = "The user is already exists" });
-            //}
-            //return IdentityResult.Success;
         }
     }
 }

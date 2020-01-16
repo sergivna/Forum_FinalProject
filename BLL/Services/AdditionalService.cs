@@ -15,15 +15,15 @@ namespace BLL.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public AdditionalService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AdditionalService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
-            this.mapper = mapper;
+            this.mapper = MappingConfiguration.ConfigureMapper().CreateMapper();
         }
         public async Task<IEnumerable<CountryDTO>> GetCountries()
         {
             var contries = await unitOfWork.Additional.GetCountries();
-            return Infrastructure.Mapper.FromCountryToCountryDTO(contries);
+            return mapper.Map<IEnumerable<CountryDTO>>(contries);
         }
     }
 }
