@@ -35,6 +35,42 @@
     <Compile Remove="Migrations\20200110134458_Identity2.Designer.cs" />
     <Compile Remove="Migrations\20200110175538_Identity3.cs" />
     <Compile Remove="Migrations\20200110175538_Identity3.Designer.cs" />
+    <Compile Remove="Migrations\20200121214144_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121214144_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121215142_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121215142_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220046_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220046_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220139_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220139_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220254_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220254_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220608_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220608_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220731_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220731_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220840_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220840_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121220938_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121220938_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200121221111_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200121221111_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122193757_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122193757_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122194851_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122194851_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122195150_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122195150_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122200241_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122200241_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122200319_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122200319_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122200647_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122200647_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122200821_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122200821_CascadeDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200122210938_CascadeDelete.cs" />
+    <Compile Remove="Migrations\20200122210938_CascadeDelete.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

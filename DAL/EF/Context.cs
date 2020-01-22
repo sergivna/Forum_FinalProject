@@ -50,6 +50,24 @@ namespace DAL.EF
               .IsRequired()
               .OnDelete(DeleteBehavior.Cascade);
 
+            //builder.Entity<Comment>()
+            //   .HasOne(p => p.Question)
+            //   .WithMany(b => b.Comments)
+            //   .IsRequired()
+            //   .OnDelete(DeleteBehavior.Cascade);
+
+            //builder.Entity<Comment>()
+            //   .HasOne(p => p.User)
+            //   .WithMany(b => b.Comments)
+            //   .HasForeignKey(k=>k.UserId)
+            //   .OnDelete(DeleteBehavior.Cascade);
+
+
+            //builder.Entity<Question>()
+            //    .HasMany(c => c.Comments)
+            //    .WithOne(q => q.Question)
+            //    .OnDelete(DeleteBehavior.Cascade);
+
             //builder.Entity<ApplicationUserRole>()
             //    .HasOne(e => e.Role)
             //    .WithMany()

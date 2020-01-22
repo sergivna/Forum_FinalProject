@@ -50,5 +50,17 @@ namespace WebAPI.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> DeleteQuestion(int id, int userId)
+        {
+            //if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))          
+            //    return Unauthorized();
+
+            if (await questionService.DeleteQuestion(id))
+                return NoContent();
+
+            return BadRequest("Eror in deleting topic");
+        }
+
     }
 }

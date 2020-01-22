@@ -11,5 +11,6 @@ namespace BLL.Interfaces
         Task<IEnumerable<QuestionDTO>> GetQuestionsByCategoryId(int id);
         Task<QuestionDTO> GetQuestion(int id);
         Task AddQuestion(QuestionToCreate questionDTO);
+        Task<bool> DeleteQuestion(int id);
     }
 }

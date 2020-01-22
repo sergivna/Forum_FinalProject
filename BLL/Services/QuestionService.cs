@@ -32,6 +32,12 @@ namespace BLL.Services
             await unitOfWork.SaveChanges();
         }
 
+        public async Task<bool> DeleteQuestion(int id)
+        {   
+            unitOfWork.Questions.Delete(id);
+            return await unitOfWork.SaveChanges();
+        }
+
         public async Task<QuestionDTO> GetQuestion(int id)
         {
             var question = await unitOfWork.Questions.GetById(id);

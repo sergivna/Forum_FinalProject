@@ -11,7 +11,7 @@ namespace DAL.Entities
         public UserProfile()
         {
             Questions = new List<Question>();
-            Comments = new List<Comment>();
+            //Comments = new List<Comment>();
         }
         [Key]
         [ForeignKey("User")]
